@@ -8,8 +8,8 @@
 import scrapy
 
 
-class DoubanNewMovieItem(scrapy.Item):
+class AiriPicProItem(scrapy.Item):
     # define the fields for your item here like:
-    mv_name = scrapy.Field()
-    mv_star = scrapy.Field()
-    mv_url = scrapy.Field()
+    # name = scrapy.Field()
+    airi_img_url = scrapy.Field();
+    imgs = scrapy.Field();
