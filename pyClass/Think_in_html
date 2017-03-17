@@ -1,0 +1,109 @@
+1.爬虫的思路：
+    首先，我们要知道，每一个网页都是一份 HTML文档，全称叫 hypertext markup language，是一种文本标记语言，他长的就像这样：
+
+<html>
+    <head>
+        <title>首页</title>
+    </head>
+    <body>
+        <h1>我是标题</h1>
+        <img src="xxx">
+    </body>
+</html>
+由上，我们可以看出，这是一份很有规则的文档写法
+
+我们打开一个网页，即是通过了 HTTP协议，对一个资源进行了请求，如何他返还你一份 HTML文档，然后浏览器进行文档的渲染，这样，你就看到一份美丽的网页啦
+
+所以，我们只需要模拟浏览器，发送一份请求，获得这份文档，再抽取出我们需要的内容就好
+
+2.简单的爬虫：
+    import urllib2
+
+    response=urllib.urlopen("http://xxx.com")
+
+    print response.read()
+
+3。进阶：
+
+    伪装浏览器爬取站点内容：
+        User-Agent伪装
+    import urllib2
+
+    header={
+        "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:43.0) Gecko/20100101 Firefox/43.0",
+        "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Host":"aljun.me"
+    }
+
+    request=urllib2.request("http://xxx.com")
+    response=urllib2.urlopen(request)
+
+
+    伪装Cookie:
+
+    import urllib2
+    import cookielib
+
+    cookie={"bdshare_firstime":1455378744638}
+    cookie = cookielib.CookieJar()
+
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+
+    urllib2.install_opener(opener)
+
+    response=urllib2.urlopen("http://xxx.com")
+
+
+    伪装参数传递：
+    import urllib2
+
+    data={
+        "username":"xxx"
+        "password":"xxx"
+    }
+    request=urllib2.request("http://xxx.com",data)
+    response=urllib2.urlopen(request)
+
+
+    如何爬取图片？：
+    import urllib
+
+    path="xxx.png"
+    url="http://zhaduixueshe.com/static/pic/discovery.png"
+
+    urllib.urlretrieve(url,path)
+
+4.Request库简要介绍：
+    Requests: HTTP for Humans
+    In [1]: import requests
+
+    In [3]: response=requests.get("http://aljun.me")
+
+    In [4]: response=requests.post("http://zhihu.com/login",data={"username":"xxx"})
+
+    官方文档：http://www.python-requests.org/en/master/user/quickstart/
+
+
+5.html文档的处理：
+    通常，我们对于HTML文档的处理的办法，比较流行的集中：
+
+    re(正则表达式）
+    beautifulsoup
+    xpath
+    pyquery
+
+6.JSON
+网络资源不仅仅是HTML，还有一种格式叫json文件
+
+它是javascript面向对象表达式的意思
+
+很多网站都会提供api，也就是数据接口，一般都是以json格式返回的
+
+In [1]: import urllib2
+
+In [2]: response=urllib2.urlopen("http://aljun.me/like")
+
+In [3]: print response.read()
+{
+  "liked": 1647
+}
